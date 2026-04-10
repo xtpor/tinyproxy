@@ -1,0 +1,22 @@
+services:
+  tinyproxy:
+    build: .
+    container_name: tinyproxy
+    restart: unless-stopped
+    ports:
+      - "1080:8888"
+    volumes:
+      - tinyproxy_data:/data
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536
+    environment:
+      - HEALTH_CHECK_INTERVAL=30
+      - PROXY_PORT=8888
+      - AUTH_USER=user
+      # Password will be auto-generated and stored in volume
+    # Health check is built into the container via entrypoint script
+
+volumes:
+  tinyproxy_data:
